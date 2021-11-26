@@ -3,6 +3,7 @@
 # Tabel of Contents
 
 - [Codeforces](#Codeforces)
+  - [Round #753 div.3](#Round_#753_div.3)
 - [Google Kickstart](#Google_Kickstart)
 - [Problems from Uva](#Problems_from_Uva)
   - [Brute force](#Brute_force)
@@ -95,3 +96,193 @@ int main()
 	return 0;
 }
  ```
+### C\. Minimum Extraction
+
+#### 💡 Explanation:
++
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+const int N = 200010;
+int a[N];
+
+int main()
+{
+	int t;
+	cin >> t;
+	while(t -- )
+	{
+		int n;
+		cin >> n;
+		for(int i = 1; i <= n; i ++ )	scanf("%d", &a[i]);
+		
+		sort(a + 1, a + n + 1);
+		
+		int res = a[1];
+		for(int i = 1; i < n; i ++ )
+			res = max(res, a[i + 1] - a[i]);
+		
+		printf("%d\n", res);
+	}
+	
+	return 0;
+}
+```
+### D\. Blue-red Permutation
+
+#### 💡 Explanation:
++
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+const int N = 200010;
+int a[N];
+
+vector<int> l, r;
+
+int main()
+{
+	int t;
+	cin >> t;
+	while(t -- )
+	{
+		int n;
+		cin >> n;
+		for(int i = 1; i <= n; i ++ )	scanf("%d", &a[i]);
+		for(int i = 1; i <= n; i ++ )
+		{
+			char op;
+			cin >> op;
+			if(op == 'B')	l.push_back(a[i]);
+			else	r.push_back(a[i]);
+		}
+		
+		sort(l.begin(), l.end());
+		sort(r.begin(), r.end(), greater<int>());
+		
+		for(int i = 0; i < n; i ++ ) cout << l[i] << " ";
+		cout << endl;
+		for(int i = 0; i < n; i ++ ) cout << r[i] << " ";
+	}
+}
+```
+
+
+# Google Kickstart
+## ▶ 2021 Round A
+
+### 1\. K-goodness string
+
+#### 💡 Explanation:
++
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+const int N = 1000100;
+char s[N];
+
+int main()
+{
+	int T;
+	cin >> T;
+	for(int C = 1; C <= T; C ++ )
+	{
+		int n, k, now = 0;
+		cin >> n >> k;
+		for(int i = 0; i < n; i ++ )	cin >> s[i];
+		for(int i = 0; i < n / 2; i ++ )
+			if(s[i] != s[n - i - 1])
+				now ++ ;
+			
+		
+		printf("Case #%d: %d\n", C, abs(now - k));
+	}	
+	
+	return 0;
+}
+```
+### 2\. L-Shaped Plots
+
+#### 💡 Explanation:
++
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+const int N = 1100;
+char g[N][N];
+int t[N][N], b[N][N], l[N][N], r[N][N];
+int R, C, ans;
+
+void initial()
+{
+	for(int i = 1; i <= R; i ++ )
+		for(int j = 1; j <= C; j ++ )
+		{
+			t[i][j] = 0, b[i][j] = 0, l[i][j] = 0, r[i][j] = 0, g[i][j] = '0';
+		}
+}
+
+int count(int x, int y)
+{
+	if(x < 2 || y < 2)	return 0;
+	return min(x / 2, y) + min(x, y / 2) - 2;
+}
+
+int main()
+{
+	int T;
+	cin >> T;
+	for(int K = 1; K <= T; K ++ )
+	{
+		initial();
+		ans = 0;
+		cin >> R >> C;
+		for(int i = 1; i <= R; i ++ )
+			for(int j = 1; j <= C; j ++ )
+				cin >> g[i][j];
+		
+		for(int i = 1; i <= R; i ++ )
+			for(int j = 1; j <= C; j ++ )
+					if(g[i][j] != '0')
+					{
+						t[i][j] = t[i - 1][j] + 1;
+						l[i][j] = l[i][j - 1] + 1;
+					}
+			
+		for(int i = R; i >= 1; i -- )
+			for(int j = C; j >= 1; j -- )
+					if(g[i][j] != '0')
+					{
+						b[i][j] = b[i + 1][j] + 1;
+						r[i][j] = r[i][j + 1] + 1;
+					}
+
+		for(int i = 1; i <= R; i ++ )
+			for(int j = 1; j <= C; j ++ )
+			{
+				ans += count(t[i][j], l[i][j]);
+				ans += count(t[i][j], r[i][j]);
+				ans += count(b[i][j], l[i][j]);
+				ans += count(b[i][j], r[i][j]);
+			}
+		
+		printf("Case #%d: %d\n", K, ans);
+	}
+}
+```
+## ▶ Other
+
+### 1\. Training
+
+#### 💡 Explanation:
+```cpp
+```
+
+
+# Prolems from Uva
+## ▶ Brute force and search
+### Brute Force
